@@ -16,3 +16,9 @@ class MarksForm(FlaskForm):
 
     
 
+
+
+class EnrollmentForm(FlaskForm):
+    course_id=StringField("course code")
+    student_id=StringField("Registration number")
+    subit=SubmitField("Enroll ")
