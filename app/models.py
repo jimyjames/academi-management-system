@@ -19,8 +19,11 @@ class Students(db.Model):
     status=db.Column(db.String(20), nullable=False)
 
 
-    enrollments1=db.relationship('Enrollment', backref='studentreg', lazy=True)
-    # student_marks = db.relationship('Marks', backref=db.backref('reg', lazy=True))
+    enrollments=db.relationship('Enrollment', backref='student', lazy=True)
+    student_id = db.relationship('Marks', backref=db.backref('students_id', lazy=True))
+   
+    # student_marks = db.relationship('Marks', backref=db.backref('reg', lazy=T
+    # rue))
     # course = db.relationship('Marks', backref=db.backref('course_id', lazy=True))
 
     def to_json(self):
@@ -109,7 +112,8 @@ class Units(db.Model):
     name=db.Column(db.String(16), nullable=False)
     email=db.Column(db.String(120), unique=True, nullable=False)
     # department = db.Column(db.String(16), db.ForeignKey('departments.code'), nullable=False)
-    enrollments=db.relationship('Enrollment', backref='unit_id', lazy=True)
+    enrollments=db.relationship('Enrollment', backref='unit', lazy=True)
+    course_id = db.relationship('Marks', backref=db.backref('courses_id', lazy=True))
     status=db.Column(db.String(20), nullable=False)
     def to_json(self):
         json_unit = {
@@ -125,7 +129,7 @@ class Units(db.Model):
 
 
 class Enrollment(db.Model):
-    __tablename__="enrollment"
+    __tablename__="enrollments"
     # Avoid multiple primary_keys in tables
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
@@ -133,7 +137,7 @@ class Enrollment(db.Model):
     # enrollment_date = db.Column(db.DateTime, default=db.func.current_timestamp())
 
     # Define relationships to access related data
-    student = db.relationship('Students', backref=db.backref('enrollments', lazy=True))
+    # student = db.relationship('Students', backref=db.backref('enrollments', lazy=True))
     # course = db.relationship('Units', backref=db.backref('enrollments', lazy=True))
 
     def to_json(self):
@@ -168,41 +172,39 @@ class Enrollment(db.Model):
 
 
            
-# class Marks(db.Model):
-#     __tablename__= "marks"
+class Marks(db.Model):
+    __tablename__= "marks"
 
-#     id=db.Column(db.Integer,primary_key=True)
-#     reg = db.Column(db.Integer, db.ForeignKey('students.reg'), nullable=False)
-#     course_id = db.Column(db.Integer, db.ForeignKey('units.code'), nullable=False)
-#     cat1=db.Column(db.Float(),nullable=False)
-#     Cat2=db.Column(db.Float(),nullable=False)
-#     cat3=db.Column(db.Float(),nullable=False)
-#     assignment1=db.Column(db.Float(),nullable=False)
-#     assignment2=db.Column(db.Float(),nullable=False)
-#     assignment3=db.Column(db.Float(),nullable=False)
-#     practicals=db.Column(db.Float(),nullable=False)
-#     mainExam=db.Column(db.Float(),nullable=False)
-#     overallmarks=db.Column(db.Float(),nullable=False)
+    id=db.Column(db.Integer,primary_key=True)
+    student_id = db.Column(db.Integer, db.ForeignKey('students.id'), nullable=False)
+    course_id = db.Column(db.Integer, db.ForeignKey('units.id'), nullable=False)
+    cat1=db.Column(db.Float(),nullable=False)
+    Cat2=db.Column(db.Float(),nullable=False)
+    cat3=db.Column(db.Float(),nullable=False)
+    assignment1=db.Column(db.Float(),nullable=False)
+    assignment2=db.Column(db.Float(),nullable=False)
+    assignment3=db.Column(db.Float(),nullable=False)
+    practicals=db.Column(db.Float(),nullable=False)
+    mainExam=db.Column(db.Float(),nullable=False)
+    overallmarks=db.Column(db.Float(),nullable=False)
 
-#     reg = db.relationship('Students', backref=db.backref('reg', lazy=True))
-#     course = db.relationship('Units', backref=db.backref('course_id', lazy=True))
 
-#     def to_json(self):
-#         json_mark = {
+    def to_json(self):
+        json_mark = {
             
-#          "cat1":self.cat1,
-#          "Cat2":self.Cat2,
-#          "cat3":self.cat3,
-#          "assignment1":self.assignment1,
-#          "assignment2":self.assignment2,
-#          "assignment3":self.assignment3,
-#          "practicals":self.practicals,
-#          "mainExam":self.mainExam,
-#          "overallmarks":self.overallmarks,
-#          "reg":self.reg,
-#          "course_id":self.course_id}
+         "cat1":self.cat1,
+         "Cat2":self.Cat2,
+         "cat3":self.cat3,
+         "assignment1":self.assignment1,
+         "assignment2":self.assignment2,
+         "assignment3":self.assignment3,
+         "practicals":self.practicals,
+         "mainExam":self.mainExam,
+         "overallmarks":self.overallmarks,
+         "student_id":self.student_id,
+         "course_id":self.course_id}
         
-#         return json_mark
+        return json_mark
 
 # class Results(db.Model):
 #     __tablename__= "results"
@@ -214,8 +216,7 @@ class Enrollment(db.Model):
 #     secondattempt=db.Column(db.Float(),nullable=False)
 #     thirdattempt=db.Column(db.Float(),nullable=False)
 #     finalattempt=db.Column(db.Float(),nullable=False)
-#     reg = db.relationship('Students', backref=db.backref('marks', lazy=True))
-#     course = db.relationship('Units', backref=db.backref('marks', lazy=True))
+ 
 
 #     def to_json(self):
 #         json_result = {

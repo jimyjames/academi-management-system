@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Marks</title>
+</head>
+<body>
+  <h1>Marks</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Student Name</th>
+        <th>Course Name</th>
+        <th>Course Code</th>
+        <th>Student Reg.</th>
+        <th>CAT1</th>
+        <th>CAT2</th>
+        <th>CAT3</th>
+        <th>Assignment 1</th>
+        <th>Assignment 2</th>
+        <th>Assignment 3</th>
+        <th>Practicals</th>
+        <th>Main Exam</th>
+        <th>Overall Marks</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for score in scores %}
+        <tr>
+          <td>{{ score.student_name }}</td>
+          <td>{{ score.course_name }}</td>
+          <td>{{ score.course_code }}</td>
+          <td>{{ score.student_reg }}</td>
+          <td>{{ score.cat1 }}</td>
+          <td>{{ score.Cat2 }}</td>
+          <td>{{ score.cat3 }}</td>
+          <td>{{ score.assignment1 }}</td>
+          <td>{{ score.assignment2 }}</td>
+          <td>{{ score.assignment3 }}</td>
+          <td>{{ score.practicals }}</td>
+          <td>{{ score.mainExam }}</td>
+          <td>{{ score.overallmark }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>

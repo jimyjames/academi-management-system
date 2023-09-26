@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enrollments</title>
+    <style>
+        td{
+            /* border: 2px solid blue; */
+            padding: 0.1%;
+           border-radius: 2px;
+        }
+        th{
+            font-size: larger;
+        }
+        tr {
+            /* background-color: red; */
+            border-collapse: collapse;
+            /* border: 2px solid blue; */
+        }
+    </style>
+</head>
+<body>
+    <h1>Enrollments</h1>
+   
+    <table>
+        <thead>
+            <tr>
+                <th>Student Reg</th>
+                <th>Student</th>
+                <th>Course</th>
+                <th>Unit Name</th>
+                
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for enrollment in enrollments %}
+                <tr style="border: 2px solid blue;">
+                    <td>{{ enrollment.student_reg }}</td>
+                    <td>{{ enrollment.student_name }}</td>                  
+                    <td>{{ enrollment.course_code }}</td>
+                    <td>{{ enrollment.course_name }}</td>
+                    
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+</body>
+</html>
