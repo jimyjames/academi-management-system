@@ -126,9 +126,9 @@ class Units(db.Model):
 
 class Enrollment(db.Model):
     __tablename__="enrollment"
-    id = db.Column(db.Integer, primary_key=True)
-    student_id = db.Column(db.Integer, db.ForeignKey('students.id'), primary_key=True)
-    course_id = db.Column(db.Integer, db.ForeignKey('units.code'), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
+    course_id = db.Column(db.Integer, db.ForeignKey('units.code'))
     # enrollment_date = db.Column(db.DateTime, default=db.func.current_timestamp())
 
     # Define relationships to access related data
@@ -137,8 +137,8 @@ class Enrollment(db.Model):
 
     def to_json(self):
         json_enrollment = {
-            "student": self.student_id,
             "id":self.id,
+            "student": self.student_id,
             "course": self.course_id
             # "enroll_date": self.enrollment_date
         }

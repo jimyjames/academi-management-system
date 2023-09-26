@@ -174,7 +174,7 @@ def enrollments():
     
      if request.method=="POST":
         new_enrollment=Enrollment(
-            id=request.form["id"],
+            # id=request.form["id"],
             student_id=request.form["student_id"],
             course_id=request.form["course_id"]
             # enrollment_date=request.form["enrollment_date"],
