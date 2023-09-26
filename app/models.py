@@ -126,6 +126,7 @@ class Units(db.Model):
 
 class Enrollment(db.Model):
     __tablename__="enrollment"
+    # Avoid multiple primary_keys in tables
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
     course_id = db.Column(db.Integer, db.ForeignKey('units.code'))
