@@ -11,15 +11,14 @@ from .forms import MarksForm,EnrollmentForm
 def home():
     return "<a href='/students'>View Students</a>"+ "<br>" + "<a href='/enrollments'>View Enrolled Students</a>"+ "<br>"+ "<a href='/newenrollments'>Enroll Students</a>" +"<br>" + "<a href='/marks'>View Marks </a>"+"<br>" + "<a href='/newmarks'>Add Marks</a>" + "<br>" +"<a href='/students'>View Students</a>"
 
-@ams.route("/students",methods=["GET","POST"])
-def students():
-    if request.method=="GET":
-        all_students = Students.query.all()
-        student_list = []
-        for student in all_students:
-            student_list.append(student.to_json())
-        return jsonify(student_list)
+@ams.route("/viewstudent",methods=["GET"])
+def get_students():
+    students = Students.query.all()
+
+    return render_template('viewstudents.html', students=students)
     
+@ams.route("/newstudents",methods=["GET","POST"])
+def students():   
     if request.method=="POST":
         new_student=Students(
            

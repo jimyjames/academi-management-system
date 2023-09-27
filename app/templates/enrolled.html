@@ -1,31 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
+   
     <title>Enrollments</title>
     <style>
-        td{
-            /* border: 2px solid blue; */
-            padding: 0.1%;
-           border-radius: 2px;
-        }
-        th{
-            font-size: larger;
-        }
-        tr {
-            /* background-color: red; */
-            border-collapse: collapse;
-            /* border: 2px solid blue; */
-        }
-    </style>
+      th {
+      margin-right: 10px;
+      background-color: rgb(107, 85, 138);
+      color: white;
+      text-align: left;
+    }
+    tr th{
+      padding: 10px;
+      margin: 10px;
+    }
+    tr td{
+      padding-left: 10px;
+      background-color: rgb(217, 217, 217);
+    }
+      </style>
 </head>
 <body>
-    <h1>Enrollments</h1>
+   <div class="enrollment" style="padding: 10px;">
+    <div style=" background-color: rgb(207, 207, 207);"><h1 style="margin: 10px; color: rgb(5, 5, 75); text-decoration:none; ">Enrolled Students</h1></div>
+    
    
     <table>
         <thead>
             <tr>
                 <th>Student Reg</th>
-                <th>Student</th>
+                <th>Student Name</th>
                 <th>Course</th>
                 <th>Unit Name</th>
                 
@@ -34,7 +38,7 @@
         </thead>
         <tbody>
             {% for enrollment in enrollments %}
-                <tr style="border: 2px solid blue;">
+                <tr>
                     <td>{{ enrollment.student_reg }}</td>
                     <td>{{ enrollment.student_name }}</td>                  
                     <td>{{ enrollment.course_code }}</td>
@@ -44,6 +48,8 @@
             {% endfor %}
         </tbody>
     </table>
+   </div>
+
     
 </body>
 </html>
