@@ -4,13 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing</title>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
     <style>
         body{
             background-color: rgb(238, 238, 238);
             margin: 0;
         }
         .heading{
-            text-decoration: underline;
+
+            display: flex;
+            gap: 7px;
             background-color: rgb(107, 85, 138);
             color: white;
             padding: 10px;
@@ -34,7 +39,7 @@
             gap: 10px;
         }
         .link{
-            background-color: rgb(242, 238, 233);
+            background-color: rgb(233, 233, 242);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -47,38 +52,43 @@
             cursor: pointer;
         }
 
+        ion-icon {
+  font-size: 64px;
+}
+
     </style>
 </head>
 <body>
     <div>
-        <div class="heading">Navigations Page</div>
+        <div class="heading"> <ion-icon home-outline"></ion-icon> Navigations Page</div>
        <div class="container">
 
         <div class="link">
-            <div><img src="whale.png" alt=""></div>
-        <div>Students</div>
+            <div><ion-icon name="school-outline"></ion-icon></div>
+        <div>
+            Students</div>
         </div>
 
        <div class="link">
-        <div><img src="whale.png" alt=""></div>
+        <div><ion-icon name="person-outline"></ion-icon></div>
         <div>Enrolled Students</div>
        </div>
        <div class="link">
 
-        <div><img src="whale.png" alt=""></div>
+        <div><ion-icon name="person-add-outline"></ion-icon></div>
         <div>Enroll Students</div>
        </div>
 
-        <div class="link"><div><img src="whale.png" alt=""></div>
+        <div class="link"><div><ion-icon name="newspaper-outline"></ion-icon></div>
         <div>View Marks</div></div>
 
         <div class="link">
-            <div><img src="whale.png" alt=""></div>
+            <div><ion-icon name="download-outline"></ion-icon></div>
         <div>Add Marks</div>
         </div>
 
         <div class="link">
-            <div><img src="whale.png" alt=""></div>
+            <div><ion-icon name="people-circle-outline"></ion-icon></div>
         <div>View Students</div>
         </div>
        </div>
