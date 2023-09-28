@@ -9,14 +9,18 @@ from .forms import MarksForm,EnrollmentForm
 @ams.route("/")
 @ams.route("/home")
 def home():
-    return "<a href='/students'>View Students</a>"+ "<br>" + "<a href='/enrollments'>View Enrolled Students</a>"+ "<br>"+ "<a href='/newenrollments'>Enroll Students</a>" +"<br>" + "<a href='/marks'>View Marks </a>"+"<br>" + "<a href='/newmarks'>Add Marks</a>" + "<br>" +"<a href='/students'>View Students</a>"
+    return render_template('landing.html')
+    # return "<a href='/students'>View Students</a>"+ "<br>" + "<a href='/enrollments'>View Enrolled Students</a>"+ "<br>"+ "<a href='/newenrollments'>Enroll Students</a>" +"<br>" + "<a href='/marks'>View Marks </a>"+"<br>" + "<a href='/newmarks'>Add Marks</a>" + "<br>" +"<a href='/students'>View Students</a>"
 
 @ams.route("/viewstudent",methods=["GET"])
 def get_students():
     students = Students.query.all()
 
     return render_template('viewstudents.html', students=students)
-    
+
+
+
+#  route to add new students   
 @ams.route("/newstudents",methods=["GET","POST"])
 def students():   
     if request.method=="POST":
@@ -38,7 +42,9 @@ def students():
         db.session.commit()
         stud = jsonify(new_student.to_json()) 
         return  (jsonify(new_student.to_json()))
-    
+
+
+# return student based on the id on the table 
 @ams.route("/student/<int:id>",methods=["GET","PUT","DELETE"])
 def student(id):
     
