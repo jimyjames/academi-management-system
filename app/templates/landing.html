@@ -10,17 +10,16 @@
     <style>
         body{
             background-color: rgb(238, 238, 238);
-            margin: 0;
+
         }
         .heading{
 
             display: flex;
-            gap: 7px;
-            background-color: rgb(107, 85, 138);
+
+            background-color: rgb(63, 134, 100);
             color: white;
-            padding: 10px;
-            font-size: large;
-            margin-top: 5px;
+            padding: 0px;
+
 
         }
         .link img{
@@ -55,44 +54,57 @@
         ion-icon {
   font-size: 64px;
 }
+.gridcontainer{
+    background-color: red;
+    padding: 40px;
+}
 
     </style>
 </head>
 <body>
-    <div>
-        <div class="heading"> <ion-icon home-outline"></ion-icon> Navigations Page</div>
-       <div class="container">
 
+
+
+    <div class="container">
+        <!-- Navigation  -->
+    <div id="item1" class="heading">
+        <ion-icon home-outline></ion-icon>
+        Navigations Page
+    </div>
+<!-- item -->
         <div class="link">
-            <div><ion-icon name="school-outline"></ion-icon></div>
-        <div>
-            Students</div>
+            <div><ion-icon name="school-outline"></ion-icon>
+            </div>
+            <div>Students</div>
         </div>
-
-       <div class="link">
-        <div><ion-icon name="person-outline"></ion-icon></div>
-        <div>Enrolled Students</div>
-       </div>
-       <div class="link">
-
-        <div><ion-icon name="person-add-outline"></ion-icon></div>
-        <div>Enroll Students</div>
-       </div>
-
-        <div class="link"><div><ion-icon name="newspaper-outline"></ion-icon></div>
-        <div>View Marks</div></div>
-
+<!-- item -->
+        <div class="link">
+            <div><ion-icon name="person-outline"></ion-icon></div>
+            <div>Enrolled Students</div>
+        </div>
+<!-- item -->
+        <div class="link">
+            <div><ion-icon name="person-add-outline"></ion-icon></div>
+            <div>Enroll Students</div>
+        </div>
+<!-- item -->
+        <div class="link">
+            <div><ion-icon name="newspaper-outline"></ion-icon></div>
+            <div>View Marks</div>
+        </div>
+<!-- item -->
         <div class="link">
             <div><ion-icon name="download-outline"></ion-icon></div>
-        <div>Add Marks</div>
+            <div>Add Marks</div>
         </div>
-
+<!-- item -->
         <div class="link">
             <div><ion-icon name="people-circle-outline"></ion-icon></div>
-        <div>View Students</div>
+            <div>View Students</div>
         </div>
-       </div>
-
+<!-- itemEND -->
     </div>
+
+
 </body>
 </html>
