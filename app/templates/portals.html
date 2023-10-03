@@ -45,10 +45,11 @@
         }
 
         .navlinks div:hover{
-            cursor: pointer;
-            background-color: black;
-            color: white;
-            font-weight: 600;
+          cursor: pointer;
+          background-color: black;
+          color: white;
+          font-weight: 600;
+          border-left: 3px solid rgb(210, 102, 0);
         }
 
         .schoollogo img{
@@ -115,6 +116,8 @@
           color: white;
           cursor: pointer;
           border-radius: 3px;
+          border-right: 3px solid rgb(210, 102, 0);
+          border-left: 3px solid rgb(210, 102, 0);
         }
 
         .schoolname{
@@ -138,18 +141,22 @@
         .studentportal{
 
             height: 300px;
-            width: 300px;
+            width: 310px;
             color: white;
-            background-color: rgb(180, 132, 12);
-            transition: background-color 0.3s ease-in-out;
+            background-color: rgb(138, 138, 138);
+            display: flex;
+            flex-direction: column;
+            /* transition: background-color 0.3s ease-in-out; */
         }
         .staffportal{
             background-color: rgb(0, 0, 0);
             color: white;
             height: 400px;
             width: 400px;
-            background-color: rgb(180, 71, 12);
-            transition: background-color 0.3s ease-in-out;
+            background-color: rgb(138, 138, 138);
+            display: flex;
+            flex-direction: column;
+            /* transition: background-color 0.3s ease-in-out; */
         }
 
         .studentportal ,.staffportal{
@@ -164,10 +171,10 @@
         .studentportal:hover{
             cursor: pointer;
             color: rgb(255, 255, 255);
-            background-color:  rgb(255, 183, 0);
+            background-color:  rgb(0, 0, 0);
             font-weight: 600;
             text-decoration: none;
-            border-bottom: 2px solid rgb(0, 0, 0);
+            border-bottom: 6px solid rgb(210, 102, 0);
             padding-bottom: 14px;
             text-transform: uppercase;
         }
@@ -175,13 +182,15 @@
         .staffportal:hover{
             cursor: pointer;
             color: rgb(255, 255, 255);
-            background-color:  rgb(255, 89, 0);
+            background-color:  rgb(0, 0, 0);
             font-weight: 600;
             text-decoration: none;
-            border-bottom: 2px solid rgb(0, 0, 0);
+            border-bottom: 6px solid rgb(210, 102, 0);
             padding-bottom: 14px;
             text-transform: uppercase;
-
+        }
+        ion-icon{
+          font-size: 83px;
         }
 
 
@@ -202,8 +211,17 @@
 
 
 <div class="portals">
-    <div class="studentportal">student portal</div>
-    <div class="staffportal">staff Portal</div>
+    <div>
+      <div class="studentportal">
+        <div><ion-icon name="person-circle-outline"></ion-icon></div>
+          student portal</div>
+      </div>
+    <div>
+
+    <div class="staffportal">
+      <div><ion-icon name="person-circle-outline"></ion-icon></div>
+        staff Portal</div>
+    </div>
 </div>
 
 
