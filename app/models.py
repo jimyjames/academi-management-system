@@ -160,6 +160,7 @@ class Enrollment(db.Model):
 #     name = db.Column(db.String(10))
 #     year = db.Column(db.Integer)
 #     semester = db.Column(db.Integer)
+    # code = db.column(db.Integer,unique=True,nullable=False)
 
 
 #     def to_json(self):
@@ -206,29 +207,29 @@ class Marks(db.Model):
         
         return json_mark
 
-# class Results(db.Model):
-#     __tablename__= "results"
-#     id=db.Column(db.Integer,primary_key=True)
-#     reg = db.Column(db.Integer, db.ForeignKey('students.reg'), nullable=False)
-#     course_id = db.Column(db.Integer, db.ForeignKey('units.code'), nullable=False)
+class Results(db.Model):
+    __tablename__= "results"
+    id=db.Column(db.Integer,primary_key=True)
+    reg = db.Column(db.Integer, db.ForeignKey('students.reg'), nullable=False)
+    course_id = db.Column(db.Integer, db.ForeignKey('units.code'), nullable=False)
 
-#     firstattempt=db.Column(db.Float(),nullable=False)
-#     secondattempt=db.Column(db.Float(),nullable=False)
-#     thirdattempt=db.Column(db.Float(),nullable=False)
-#     finalattempt=db.Column(db.Float(),nullable=False)
+    firstattempt=db.Column(db.Float(),nullable=False)
+    secondattempt=db.Column(db.Float(),nullable=False)
+    thirdattempt=db.Column(db.Float(),nullable=False)
+    finalattempt=db.Column(db.Float(),nullable=False)
  
 
-#     def to_json(self):
-#         json_result = {
-#          "firstattempt":self.firstattempt,
-#          "secondattempt":self.secondattempt,
-#          "thirdattempt":self.thirdattempt,
-#          "finalattempt":self.finalattempt,
-#          "course":self.course_id,
-#          "student":self.reg
-#          }
+    def to_json(self):
+        json_result = {
+         "firstattempt":self.firstattempt,
+         "secondattempt":self.secondattempt,
+         "thirdattempt":self.thirdattempt,
+         "finalattempt":self.finalattempt,
+         "course":self.course_id,
+         "student":self.reg
+         }
         
-#         return json_result
+        return json_result
 
 # # class Users(db.Model):
 # #     id=db.Column(db.Integer,primary_key=True)
