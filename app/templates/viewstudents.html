@@ -1,26 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Students</title>
-  <style>
-    th {
-      margin-right: 10px;
-      background-color: rgb(107, 85, 138);
-      color: white;
-      text-align: left;
-    }
-    tr th{
-      padding: 10px;
-      margin: 10px;
-    }
-    tr td{
-      padding-left: 10px;
-      background-color: rgb(217, 217, 217);
-    }
-  </style>
-</head>
-<body>
-  <h1>Students</h1>
+{% extends "base.html" %}
+{% block content %}
+{{ super () }}
+<h1>Students</h1>
 
   <table>
     <thead>
@@ -34,10 +15,6 @@
         <th>Email</th>
         <th>Username</th>
         <th>Registration Number</th>
-        <!-- <th>Assignment 3</th>
-        <th>Practicals</th>
-        <th>Main Exam</th>
-        <th>Overall Marks</th> -->
       </tr>
     </thead>
     <tbody>
@@ -52,13 +29,9 @@
           <td>{{ student.email }}</td>
           <td>{{ student.username }}</td>
           <td>{{ student.student_reg }}</td>
-          <!-- <td>{{ student.assignment3 }}</td> -->
-          <!-- <td>{{ student.practicals }}</td> -->
-          <!-- <td>{{ student.mainExam }}</td> -->
-          <!-- <td>{{ student.overallmark }}</td> -->
-        </tr>
+         
       {% endfor %}
     </tbody>
   </table>
-</body>
-</html>
+
+{% endblock %}

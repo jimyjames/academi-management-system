@@ -1,7 +1,6 @@
-{% extends "base.html" %}
-
-{% block content %}
 <form action="" method="POST">
-    {{ wtf.quick_form(form) }}
+    {{form.hidden_tag()}}
+    {{form.student_id()}}
+    {{form.module_info()}}
+    {{form.submit()}}
 </form>
-{% endblock %}
