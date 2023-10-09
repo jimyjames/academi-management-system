@@ -1,48 +1,24 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Students</title>
+{% extends "base.html" %}
+{% block content %}
+{{ super () }}
+<h1>Students</h1>
 
-    <style>
-      th {
-        margin-right: 10px;
-        background-color: rgb(107, 85, 138);
-        color: white;
-        text-align: left;
-      }
-      tr th {
-        padding: 10px;
-        margin: 10px;
-      }
-      tr td {
-        padding-left: 10px;
-        background-color: rgb(217, 217, 217);
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Students</h1>
-
-    <table>
-      <thead>
-        <tr>
-          <th>First Name</th>
-          <th>Second Name</th>
-          <th>Sir Name</th>
-          <th>Status.</th>
-          <th>YOE</th>
-          <th>Phone</th>
-          <th>Email</th>
-          <th>Username</th>
-          <th>Registration Number</th>
-          <!-- <th>Assignment 3</th>
-        <th>Practicals</th>
-        <th>Main Exam</th>
-        <th>Overall Marks</th> -->
-        </tr>
-      </thead>
-      <tbody>
-        {% for student in students %}
+  <table>
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th> Second Name</th>
+        <th>Sir Name</th>
+        <th>Status.</th>
+        <th>YOE</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Username</th>
+        <th>Registration Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for student in students %}
         <tr>
           <td>{{ student.fname }}</td>
           <td>{{ student.mname }}</td>
@@ -53,13 +29,9 @@
           <td>{{ student.email }}</td>
           <td>{{ student.username }}</td>
           <td>{{ student.student_reg }}</td>
-          <!-- <td>{{ student.assignment3 }}</td> -->
-          <!-- <td>{{ student.practicals }}</td> -->
-          <!-- <td>{{ student.mainExam }}</td> -->
-          <!-- <td>{{ student.overallmark }}</td> -->
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </body>
-</html>
+         
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}

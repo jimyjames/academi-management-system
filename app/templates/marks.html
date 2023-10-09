@@ -1,3 +1,5 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf%}
+ {% block content %}
 <form action="" method="POST">{{ wtf.quick_form(marks_form) }}</form>
 {% endblock %}

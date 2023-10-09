@@ -1,32 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Marks</title>
-  <style>
-    th {
-      margin-right: 10px;
-      background-color: rgb(107, 85, 138);
-      color: white;
-      text-align: left;
-    }
-    tr th{
-      padding: 10px;
-      margin: 10px;
-    }
-    tr td{
-      padding-left: 10px;
-      background-color: rgb(217, 217, 217);
-    }
-  </style>
-</head>
-<body>
-  
+{% extends "base.html" %}
+{% block content %}
+{{ super () }}
 
- <div style="margin: 12px;">
+
+hello there
+<div style="margin: 12px;">
   <div style=" background-color: rgb(207, 207, 207);"><h1 style="margin: 10px; color: rgb(5, 5, 75); text-decoration:; ">Marks</h1></div>
   <table>
     <thead>
       <tr>
+        <th>Enrollment Id</th>
         <th>Student Name</th>
         <th>Course Name</th>
         <th>Course Code</th>
@@ -45,6 +28,7 @@
     <tbody>
       {% for score in scores %}
         <tr>
+          <td>{{score.enrollment_id}}</td>
           <td>{{ score.student_name }}</td>
           <td>{{ score.course_name }}</td>
           <td>{{ score.course_code }}</td>
@@ -63,5 +47,4 @@
     </tbody>
   </table>
  </div>
-</body>
-</html>
+{% endblock %}

@@ -1,17 +1,13 @@
 from . import ams
-from flask import request,jsonify,render_template, url_for, redirect
+from flask import request,jsonify,render_template, url_for, redirect,flash
 from .. import db
-from ..models import Students,Units,Enrollment,Marks
-# ,Results
-# ,Departments
+from ..models import Students,Units,Marks,Results,Enrollments,Years
 from .forms import MarksForm,EnrollmentForm
 
 @ams.route("/")
 @ams.route("/home")
 def home():
     return render_template('landing.html')
-    # return "<a href='/students'>View Students</a>"+ "<br>" + "<a href='/enrollments'>View Enrolled Students</a>"+ "<br>"+ "<a href='/newenrollments'>Enroll Students</a>" +"<br>" + "<a href='/marks'>View Marks </a>"+"<br>" + "<a href='/newmarks'>Add Marks</a>" + "<br>" +"<a href='/students'>View Students</a>"
-
 @ams.route("/viewstudent",methods=["GET"])
 def get_students():
     students = Students.query.all()
@@ -138,8 +134,9 @@ def units():
             name=request.form["name"],
             email=request.form["email"],
             code=request.form["code"],
-            status=request.form["status"]
-            # department=request.form["department"]
+            status=request.form["status"],
+            department=request.form["department"],
+            module=request.form["module"]
            
             )
         db.session.add(new_unit)
@@ -184,7 +181,8 @@ def unit(id):
 
 @ams.route("/enrollments", methods=["GET"])
 def get_enrollments():
-    enrollments = Enrollment.query.all()
+    title="Enrolled Students"
+    enrollments = Enrollments.query.all()
 
     enrollment_list = []
     for enrollment in enrollments:
@@ -200,40 +198,49 @@ def get_enrollments():
         })
 
     # return jsonify(enrollment_list)
-    return render_template('enrolled.html', enrollments=enrollment_list)
+    return render_template('enrolled.html', enrollments=enrollment_list, title=title)
 
-@ams.route("/newenrollments",methods=["POST","GET"])
+@ams.route("/newenrollments", methods=["POST", "GET"])
 def newenrollment():
-    form=EnrollmentForm()
+    form = EnrollmentForm()
     
-    
-    if request.method=="POST":
+    # Get the selected year_id from the form
+    selected_year_id = form.module_info.data
+
+    # Fetch units based on the selected year_id
+    units = Units.query.filter_by(module=selected_year_id).all()
+
+    if request.method == "POST":
         if form.validate_on_submit():
-             new_enrollment=Enrollment(
-            # enrollment.id is auto_incremented
-            student_id=form.student_id.data,
-            course_id=form.course_id.data
-            # enrollment_date=request.form["enrollment_date"],
-            # status=request.form["status"],
-            # department=request.form["department"]
-           
-            )
-        db.session.add(new_enrollment)
-        db.session.commit()
-        # enrollment = jsonify(new_enrollment.to_json()) 
-        # return  (jsonify(new_enrollment.to_json()))
-        return redirect (url_for("ams.get_enrollments"))
-    return render_template('enroll.html',title='Enroll',form=form)
+            student_id = form.student_id.data
+            
+            # Enroll the student in each selected unit
+            for unit in units:
+                enrollment = Enrollments(
+                    student_id=student_id,
+                    course_id=unit.id
+                )
+                db.session.add(enrollment)
+
+            db.session.commit()
+            student = Students.query.get(enrollment.student_id)
+            year=Years.query.get(selected_year_id)
+            flash("Student " + str(student.fname) +" " +str(student.mname)+ " "+ str(student.sname) +  " successfully enrolled in Year "+ str(year.year) + " Semseter " +str(year.semester) )
+
+            # Redirect or render as needed
+            return redirect(url_for("ams.get_enrollments"))
+
+    return render_template('enroll.html', title='Enroll', form=form, units=units)
 
 @ams.route("/enrollments/<int:id>",methods=["GET","PUT","DELETE"])
 def enrollment(id):
     
     if request.method =="GET":
-        enrollment=Enrollment.query.get_or_404(id) 
+        enrollment=Enrollments.query.get_or_404(id) 
         
         return jsonify(enrollment.to_json() )
     if request.method=="PUT":
-        enrollment=Enrollment.query.get_or_404(id) 
+        enrollment=Enrollments.query.get_or_404(id) 
         enrollment.name=request.form["name"]
         enrollment.code=request.form["code"]
         enrollment.email=request.form["email"]
@@ -241,7 +248,7 @@ def enrollment(id):
         # enrollment.department=request.form["department"]
         return jsonify(enrollment.to_json())
     if request.method=="DELETE":
-          enrollment=Enrollment.query.get_or_404(id) 
+          enrollment=Enrollments.query.get_or_404(id) 
           db.session.delete(enrollment)
           db.session.commit()
           return {"data": f"enrollment {enrollment.name} Deleted successfully"}
@@ -262,8 +269,9 @@ def get_marks():
     marks=Marks.query.all()
     marks_list=[]
     for mark in marks:
-        student = Students.query.get(mark.student_id)
-        unit = Units.query.get(mark.course_id)
+        enrollment=Enrollments.query.get(mark.enrollment_id)
+        student = Students.query.get(enrollment.student_id)
+        unit = Units.query.get(enrollment.course_id)
 
         marks_list.append({
             "student_name": student.fname + " " + student.mname + " " + student.sname,
@@ -279,38 +287,90 @@ def get_marks():
             "practicals":mark.practicals,
             "mainExam":mark.mainExam,
             "overallmark":mark.overallmarks,
-            "student_id":mark.student_id,
-            "course_id":mark.course_id
+            "student_id":enrollment.student_id,
+            "course_id":enrollment.course_id,
+            "enrollment_id":enrollment.id
         })
         
     return render_template('viewmarks.html', scores=marks_list)
 
 
-
 @ams.route("/newmarks", methods=["GET", "POST"])
 def new_marks():
-    marks_form=MarksForm()
-    if request.method=="POST":
-        new_mark=Marks(
-            cat1=request.form["cat1"],
-            Cat2=request.form["Cat2"],
-            cat3=request.form["cat3"],
-            assignment1=request.form["assignment1"],
-            assignment2=request.form["assignment2"],
-            assignment3=request.form["assignment3"],
-            practicals=request.form["practicals"],
-            mainExam=request.form["mainExam"],
-            overallmarks=request.form["overallmarks"],
-            student_id=request.form["student_id"],
-            course_id=request.form["course_id"]
-           
-            )
+    marks_form = MarksForm()
+    if request.method == "POST" and marks_form.validate_on_submit():
+        # Calculate overallmarks based on CATs, assignments, practicals, and main exam
+        cat1 = marks_form.cat1.data
+        Cat2 = marks_form.Cat2.data
+        cat3 = marks_form.cat3.data
+        assignment1 = marks_form.assignment1.data
+        assignment2 = marks_form.assignment2.data
+        assignment3 = marks_form.assignment3.data
+        practicals = marks_form.practicals.data
+        mainExam = marks_form.mainExam.data
         
+        overallmarks = calculate_overallmarks(cat1, Cat2, cat3, assignment1, assignment2, assignment3, practicals, mainExam)
+        
+        new_mark = Marks(
+            cat1=cat1,
+            Cat2=Cat2,
+            cat3=cat3,
+            assignment1=assignment1,
+            assignment2=assignment2,
+            assignment3=assignment3,
+            practicals=practicals,
+            mainExam=mainExam,
+            overallmarks=overallmarks,
+            enrollment_id=marks_form.enrollment_id.data,
+          
+        )
         db.session.add(new_mark)
         db.session.commit()
-        mark = jsonify(new_mark.to_json()) 
+
+        new_mark_id=new_mark.id
+        new_result=Results(
+            mark_id=new_mark_id,
+            firstattempt=overallmarks
+
+        )
+
+        
+        db.session.add(new_result)
+        db.session.commit()
         return redirect(url_for("ams.get_marks"))
-    return  render_template("marks.html", marks_form=marks_form)
+    return render_template("marks.html", marks_form=marks_form)
+
+# Replace this function with your own logic to calculate overallmarks
+def calculate_overallmarks(cat1, Cat2, cat3, assignment1, assignment2, assignment3, practicals, mainExam):
+    # Calculate overallmarks here
+    # For example, you can use a weighted sum of the marks
+    overallmarks = ((cat1 + Cat2 + cat3)/3 + (assignment1 + assignment2 + assignment3)/3 + (practicals*0.25) + mainExam)
+    return overallmarks
+# @ams.route("/newmarks", methods=["GET", "POST"])
+# def new_marks():
+#     marks_form=MarksForm()
+#     if request.method=="POST":
+#         new_mark=Marks(
+#             cat1=request.form["cat1"],
+#             Cat2=request.form["Cat2"],
+#             cat3=request.form["cat3"],
+#             assignment1=request.form["assignment1"],
+#             assignment2=request.form["assignment2"],
+#             assignment3=request.form["assignment3"],
+#             practicals=request.form["practicals"],
+#             mainExam=request.form["mainExam"],
+#             overallmarks=request.form["overallmarks"],
+#             enrollment_id=request.form["enrollment_id"]
+#             # student_id=request.form["student_id"],
+#             # course_id=request.form["course_id"]
+           
+#             )
+        
+#         db.session.add(new_mark)
+#         db.session.commit()
+#         mark = jsonify(new_mark.to_json()) 
+#         return redirect(url_for("ams.get_marks"))
+#     return  render_template("marks.html", marks_form=marks_form)
 
 @ams.route("/marks/<int:id>",methods=["GET","PUT","DELETE"])
 def mark(id):
@@ -340,29 +400,29 @@ def mark(id):
           return {"data": f"mark {mark.id} Deleted successfully"}
 
 
-# @ams.route("/results",methods=["GET","POST"])
-# def results():
-#      if request.method=="GET":
-#         all_results = Results.query.all()
-#         result_list = []
-#         for result in all_results:
-#             result_list.append(result.to_json())
-#         return jsonify(result_list)
+@ams.route("/results",methods=["GET","POST"])
+def results():
+     if request.method=="GET":
+        all_results = Results.query.all()
+        result_list = []
+        for result in all_results:
+            result_list.append(result.to_json())
+        return jsonify(result_list)
     
-#      if request.method=="POST":
-#         new_result=Results(
-#             firstattempt=request.form["firstattempt"],
-#             secondattempt=request.form["secondattempt"],
-#             thirdattempt=request.form["thirdattempt"],
-#             finalattempt=request.form["finalattempt"],
-#             reg=request.form["reg"],
-#             course_id=request.form["course_id"]
+     if request.method=="POST":
+        new_result=Results(
+            firstattempt=request.form["firstattempt"],
+            secondattempt=request.form["secondattempt"],
+            thirdattempt=request.form["thirdattempt"],
+            finalattempt=request.form["finalattempt"],
+            reg=request.form["reg"],
+            course_id=request.form["course_id"]
            
-#             )
-#         db.session.add(new_result)
-#         db.session.commit()
-#         result = jsonify(new_result.to_json()) 
-#         return  (jsonify(new_result.to_json()))
+            )
+        db.session.add(new_result)
+        db.session.commit()
+        result = jsonify(new_result.to_json()) 
+        return  (jsonify(new_result.to_json()))
 
 # @ams.route("/results/<int:id>",methods=["GET","PUT","DELETE"])
 # def result(id):
