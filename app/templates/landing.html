@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+<script
+  type="module"
+  src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+></script>
+<script
+  nomodule
+  src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+></script>
+
+{% block content %} {{ super() }}
+
+<!-- Contains 2 containers -->
+
+<div class="container">
+  <!-- item -->
+  <div class="link">
+    <a href="/viewstudent">
+      <div><ion-icon name="school-outline"></ion-icon></div>
+      <div>Students</div>
+    </a>
+  </div>
+  <!-- item -->
+
+  <a href="/enrollments" class="link">
+    <div><ion-icon name="person-outline"></ion-icon></div>
+    <div>Enrolled Students</div>
+  </a>
+
+  <!-- item -->
+  <a href="newenrollments">
+    <div class="link">
+      <div><ion-icon name="person-add-outline"></ion-icon></div>
+      <div>Enroll Students</div>
+    </div>
+  </a>
+  <!-- item -->
+  <a href="/marks">
+    <div class="link">
+      <div><ion-icon name="newspaper-outline"></ion-icon></div>
+      <div>View Marks</div>
+    </div>
+  </a>
+  <!-- item -->
+  <a href="/newmarks">
+    <div class="link">
+      <div><ion-icon name="download-outline"></ion-icon></div>
+      <div>Add Marks</div>
+    </div>
+  </a>
+  <!-- item -->
+  <a href="/viewstudent">
+    <div class="link">
+      <div><ion-icon name="people-circle-outline"></ion-icon></div>
+      <div>View Students</div>
+    </div>
+  </a>
+  <!-- itemEND -->
+</div>
+
+{% endblock %}

@@ -14,10 +14,9 @@ class Students(db.Model):
     phone=db.Column(db.String(15), nullable=False)
     yoe = db.Column(db.String(10), nullable=False, default=datetime.utcnow)
     # image_file=db.Column(db.String(20), nullable=False, default='default.jpg')
-    department = db.Column(db.String(16), db.ForeignKey('departments.name'), nullable=False)
+    # department = db.Column(db.String(16), db.ForeignKey('departments.name'), nullable=False)
     password=db.Column(db.String(60), nullable=False)
     status=db.Column(db.String(20), nullable=False)
-    current_module = db.Column(db.Integer, db.ForeignKey('years.id'))
 
 
     enrollments=db.relationship('Enrollments', backref='students_id', lazy=True)
@@ -40,9 +39,8 @@ class Students(db.Model):
          "yoe":self.yoe,
          "phone":self.phone,
          "username":self.username,
-         "student_reg":self.student_reg,
-         "dept":self.department,
-         "current_module":self.current_module
+         "student_reg":self.student_reg
+        #  "dept":self.department
          }
         
         return json_student
@@ -68,78 +66,53 @@ class Students(db.Model):
 
 
 
-class Departments(db.Model):
-    __tablename__= "departments"
+# class Departments(db.Model):
+#     __tablename__= "departments"
 
-    id=db.Column(db.Integer,primary_key=True)
-    name=db.Column(db.String(16), nullable=False)
-    email=db.Column(db.String(120), unique=True, nullable=False)
-    phone=db.Column(db.String(15), nullable=False)
-    code=db.Column(db.String(10), unique=True, nullable=False, index=False)
-    learners=db.relationship('Students', backref=db.backref('DepartmentId',lazy=True))
-    courses=db.relationship('Units',backref=db.backref('Department_id',lazy=True) )
-    lecturers=db.relationship('Lecturers', backref=db.backref('deptId'), lazy=True)
-    # image_fie=db.Column(db.String(20), nullable=False, default='default.jpg') 
-    def to_json(self):
-        json_department = {
-         "name":self.name,
-         "email":self.email,
-         "phone":self.phone,
-         "code":self.code,
-         "id":self.id
+#     id=db.Column(db.Integer,primary_key=True)
+#     name=db.Column(db.String(16), nullable=False)
+#     email=db.Column(db.String(120), unique=True, nullable=False)
+#     phone=db.Column(db.String(15), nullable=False)
+#     code=db.Column(db.String(10), unique=True, nullable=False, index=False)
+#     learners=db.relationship('Students', backref=db.backref('reg',lazy=True))
+#     courses=db.relationship('Units',backref=db.backref('course_id',lazy=True) )
+#     # image_fie=db.Column(db.String(20), nullable=False, default='default.jpg') 
+#     def to_json(self):
+#         json_department = {
+#          "name":self.name,
+#          "email":self.email,
+#          "phone":self.phone,
+#          "code":self.code
          
-         }
+#          }
         
-        return json_department
+#         return json_department
 
 
 
     
 
-class Lecturers(db.Model):
-    __tablename__="lecturers"
-
-
-    id=db.Column(db.Integer,primary_key=True)
-    fname=db.Column(db.String(16), nullable=False)
-    mname=db.Column(db.String(16), nullable=False)
-    sname=db.Column(db.String(16), nullable=False)
-    uname=db.Column(db.String(20),nullable=False,unique=True)
-    email=db.Column(db.String(120), unique=True, nullable=False)
-    phone=db.Column(db.String(15), nullable=False)
-    password=db.Column(db.String(60), nullable=False)
-    code=db.Column(db.String(4), nullable=False, unique=True)
-    dept_id=db.Column(db.Integer, db.ForeignKey("departments.id"), nullable=False)
-
-
-    def to_son(self):
-        json_departments = {
-         "fname":self.fname,
-         "id":self.id,
-         "mname":self.mname,
-         "sname":self.sname,
-         "password":self.password,
-         "email":self.email,
-         "phone":self.phone,
-         "username":self.username,
-         "code":self.code,
-         "dept_id":self.dept_id
-        }
-        return json_departments
-
-
+# # class Lecturers(db.Model):
+# #     id=db.Column(db.Integer,primary_key=True)
+# #     fname=db.Column(db.String(16), nullable=False)
+# #     mname=db.Column(db.String(16), nullable=False)
+# #     sname=db.Column(db.String(16), nullable=False)
+# #     email=db.Column(db.String(120), unique=True, nullable=False)
+# #     phone=db.Column(db.String(15), nullable=False)
+# #     image_fie=db.Column(db.String(20), nullable=False, default='default.jpg')
+# #     password=db.Column(db.String(60), nullable=False)
+# #     status=db.Column(db.String(20), nullable=False)
 
 class Units(db.Model):
     __tablename__= "units"
 
-
     id=db.Column(db.Integer,primary_key=True)
     code=db.Column(db.String(10), unique=True, index=True, nullable=False)
-    module=db.Column(db.Integer, db.ForeignKey('years.id'), nullable=False)
+    
     name=db.Column(db.String(16), nullable=False)
     email=db.Column(db.String(120), unique=True, nullable=False)
-    department = db.Column(db.String(16), db.ForeignKey('departments.code'), nullable=False)
-    enrollmentes=db.relationship('Enrollments', backref='unit_id', lazy=True)
+    # department = db.Column(db.String(16), db.ForeignKey('departments.code'), nullable=False)
+    enrollments=db.relationship('Enrollments', backref='unit', lazy=True)
     # course_id = db.relationship('Marks', backref=db.backref('courses_id', lazy=True))
     status=db.Column(db.String(20), nullable=False)
     def to_json(self):
@@ -148,10 +121,8 @@ class Units(db.Model):
          "id":self.id,
          "code":self.code,
          "email":self.email,
-         "status":self.status,
-         "department":self.department,
-         "module":self.__module__
-
+         "status":self.status
+        #  "department":self.department
          }
         
         return json_unit
@@ -162,7 +133,7 @@ class Enrollments(db.Model):
     # Avoid multiple primary_keys in tables
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
-    course_id = db.Column(db.Integer, db.ForeignKey('units.id'))
+    course_id = db.Column(db.Integer, db.ForeignKey('units.code'))
     # enrollment_date = db.Column(db.DateTime, default=db.func.current_timestamp())
 
     # Define relationships to access related data
@@ -183,16 +154,13 @@ class Enrollments(db.Model):
 
 
 class Years(db.Model):
-    __tablename__= "years"
+    __tablename__= "year"
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(10))
     year = db.Column(db.Integer)
     semester = db.Column(db.Integer)
     code = db.Column(db.Integer,unique=True,nullable=False)
-    Modules=db.relationship('Units', backref=db.backref('module_id'),lazy=True)
-    currentmodule=db.relationship('Students', backref=db.backref('current module'),lazy=True)
-    
 
 
     def to_json(self):
@@ -223,9 +191,7 @@ class Marks(db.Model):
     mainExam=db.Column(db.Float(),nullable=False)
     overallmarks=db.Column(db.Float(),nullable=False)
 
-    results_mark_id=db.relationship('Results', backref=db.backref('marks_id',), lazy=True)
-    # passingmarks=db.relationship('Results', backref=db.backref('overall marks'),lazy=True)
-
+    results_mark_id=db.relationship('Results', backref=db.backref('marks_id'), lazy=True)
 
 
 
@@ -241,8 +207,8 @@ class Marks(db.Model):
          "practicals":self.practicals,
          "mainExam":self.mainExam,
          "overallmarks":self.overallmarks,
-         "enrollment_id":self.enrollment_id
-         }
+         "student_id":self.student_id,
+         "course_id":self.course_id}
         
         return json_mark
 
@@ -254,21 +220,19 @@ class Results(db.Model):
     # course_id = db.Column(db.Integer, db.ForeignKey('units.code'), nullable=False)
     mark_id=db.Column(db.Integer, db.ForeignKey('marks.id'), nullable=False)
     firstattempt=db.Column(db.Float(),nullable=False)
-    secondattempt=db.Column(db.Float())
-    thirdattempt=db.Column(db.Float())
-    finalattempt=db.Column(db.Float())
-    # firstattempt = db.Column(db.Float(), db.ForeignKey('marks.overallmarks', ondelete="CASCADE"), nullable=True)
-
+    secondattempt=db.Column(db.Float(),nullable=False)
+    thirdattempt=db.Column(db.Float(),nullable=False)
+    finalattempt=db.Column(db.Float(),nullable=False)
  
 
     def to_json(self):
         json_result = {
-         "id":self.id,
          "firstattempt":self.firstattempt,
          "secondattempt":self.secondattempt,
          "thirdattempt":self.thirdattempt,
          "finalattempt":self.finalattempt,
-         "mark_id":self.mark_id
+         "course":self.course_id,
+         "student":self.reg
          }
         
         return json_result

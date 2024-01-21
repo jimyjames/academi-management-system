@@ -1,0 +1,308 @@
+@import url("https://fonts.google.com/");
+
+* {
+  box-sizing: border-box;
+  font-family: Montserrat;
+  font-size: 15px;
+}
+
+body {
+  background-color: rgb(235, 236, 236);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0 auto;
+}
+/* active  */
+.active {
+  /* text-decoration: underline; */
+  background-color: rgb(17, 120, 204);
+  color: white;
+  /* padding: 5px 20px 5px 20px; */
+  border-radius: 5px;
+}
+/*navbar */
+.navbar {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  background-color: white;
+}
+a {
+  text-decoration: none;
+  color: rgb(96, 96, 96);
+}
+
+a:hover{
+  color: rgb(10, 222, 77);
+}
+
+/* container */
+.container {
+  display: flex;
+  gap: 10px;
+  padding: 3px;
+  height: 100vh;
+}
+
+/* Mother sidebar */
+.mother-sidebar{
+  display: flex;
+  flex-direction: column;
+  /* justify-content:center; */
+  gap: 10px;
+}
+
+/* sidebar */
+.sidebar {
+  background-color: rgba(255, 255, 255, 0.522);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  width: inherit;
+  color: gray;
+}
+
+.sidebar a {
+  display: flex;
+  gap: 3px;
+  padding: 5px 20px 5px 20px;
+  align-items: center;
+  /* justify-content: space-between; */
+}
+/* panes */
+.panes {
+  /* background-color:rgb(186, 189, 193); */
+  display: flex;
+  gap: 9px;
+  flex-direction: column;
+}
+/* component heads */
+.componenthead {
+  /* background-color: white; */
+  border-radius: 10px;
+  /* padding: 10px; */
+  display: flex;
+  gap: 7px;
+}
+
+.componentheaddetails {
+  display: flex;
+  gap: 9px;
+  border-radius: 9px;
+  background-color: rgb(255, 255, 255);
+  flex-direction: column;
+  padding: 10px;
+  /* width: 150px; */
+}
+.semester {
+  background-color:rgba(209, 235, 255, 0.226);
+  /* border: 1px solid rgb(0, 0, 0); */
+  /* color: rgb(31, 255, 98); */
+  border-radius: 10px;
+  display: flex;
+  /* flex-direction: column; */
+  padding: 7px;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 10px;
+}
+
+/* panes-divisions heading font and styling */
+span {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 600;
+  color:rgb(17, 120, 204);
+}
+.total-number{
+  color:rgb(0, 214, 79);
+  font-weight: 700;
+  font-size: 30px;
+}
+
+ion-icon {
+  font-size: 23px;
+  font-weight: 600;
+}
+.panesdivisions {
+  display: flex;
+  gap: 4px;
+  flex-direction: column;
+  padding: 12px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.522);
+}
+
+
+/* right of sidebar */
+.rightofsidebar {
+  display: flex;
+  gap: 10px;
+  /* justify-content:; */
+  width: 100%;
+}
+/* quick access */
+
+.shortcutitems a {
+  background-color: white;
+  /* height: 100vh; */
+  padding: 10px;
+  /* margin-top: 3px; */
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.link {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* end of Index page */
+
+/* Start of Enrollments page */
+.enrolldiv {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+}
+/* Initially hide the dropdown content */
+.dropdown-content {
+  display: none;
+  /* gap: 10px; */
+  /* padding: 10px; */
+  /* background-color: #f9f9f9; */
+  border-radius: 3px;
+  margin-top: 10px;
+}
+
+/* Display the dropdown content when the button is clicked */
+.show-dropdown {
+  display: inline-flex;
+}
+
+/* style the background of buttons */
+.buttonlinks {
+  background-color: white;
+  padding: 10px;
+  width: 100%;
+  gap: 12px;
+  display: flex;
+  flex-direction: col;
+}
+
+/* style button */
+button {
+  border: none;
+  background-color: rgb(52, 162, 251);
+  color: white;
+  padding: 7px;
+  border-radius: 3px;
+}
+button:hover {
+  background-color: rgb(17, 120, 204);
+  cursor: pointer;
+  color: white;
+}
+
+
+/* formats the header section of all components */
+.header {
+  /* color: white; */
+  font-weight: 600;
+}
+
+
+/* dashboard components*/
+.top-component, .middle-component, .lower-component{
+  display: flex;
+  gap: 10px;
+}
+/* student component */
+#student-component-head{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  flex-direction: column;
+
+}
+
+.top-top-component{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
+
+/* Form formatting */
+
+.form-division {
+  display:flex ;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.522);
+}
+.form-template{
+  background-color: white;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+
+input[type="text"] {
+  border-radius: 4px;
+  width: 100%;
+  height: 30px;
+  background-color: rgba(240, 240, 240, 0.881);
+  border: none;
+  padding: 5px;
+
+}
+
+label{
+  /* display: flex; */
+  font-size: 16px;
+  font-weight: 610;
+  align-items: center;
+}
+
+
+
+.form-component-head-details {
+  display: flex;
+  gap: 9px;
+  border-radius: 9px;
+  flex-direction: column;
+
+}
+
+.form-buttons{
+  display: flex;
+  justify-content: space-between;
+}
+
+
+
+
+
+
+
+{
+/* Good Color */
+rgb(17, 120, 204)
+rgb(10, 222, 77)
+/* Good Color */
+}
+
+form .label {
+  background-color: brown;
+}

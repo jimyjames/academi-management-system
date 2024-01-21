@@ -1,18 +1,58 @@
-{%extends "bootstrap/base.html"%}
-{% import"bootstrap/wtf.html"as wtf %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
-    <title>Document</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="/static/ONONONON.png" type="image">
+    <link rel="shortcut icon" href="/static/ONONONON.png" type="image">
+
+    <title>{% block title %}  {% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styling.css')}}">
+
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Melick Ognee International School</title>
 </head>
 <body>
-   <div style="margin: 12px;">
     {% block content %}
+    <!-- Navigation -->
+    <div class="navbar">
+        <a href="">Home</a>
+        <a href="">Services</a>
+        <a href="">Resources</a>
+        <a href="">Portal</a>
+    </div>
 
-    {% endblock%}
-   </div>
+    <div class="container">
+
+        <!-- sidebar -->
+        <div class="sidebar">
+          <a  href="{{ url_for('ams.home')}}"><ion-icon name="layers-outline"></ion-icon>Dashboard</a>
+          <a class="active" href="/landing.html"><ion-icon name="create-outline"></ion-icon>Registration</a>
+          <a href="enrollment.html"><ion-icon name="checkbox-outline"></ion-icon>Enrollments</a>
+          <a href="/database.html"><ion-icon name="server-outline"></ion-icon>Database</a>
+          <a href=""><ion-icon name="receipt-outline"></ion-icon>Marks</a>
+          <a href=""><ion-icon name="reader-outline"></ion-icon>Results</a>
+      </div>
+
+   <div style="margin: 12px;">
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="flash-messages">
+            {% for message in messages %}
+              {{ message }}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    {% endwith %}
+</div>
+{% endblock%}
+</div>
+
 </body>
 </html>
