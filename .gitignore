@@ -1,6 +1,9 @@
-env/
+venv/
 *.sqlite
 instance/
 .env
+<<<<<<< HEAD
+=======
 node_modules/
 .bat
+>>>>>>> bf6e875f25fd9f757e69e428f841f350b97979de
