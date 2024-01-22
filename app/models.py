@@ -29,6 +29,7 @@ class Students(db.Model):
 
     def to_json(self):
         json_student = {
+
     
          "fname":self.fname,
          "id":self.id,
@@ -41,6 +42,7 @@ class Students(db.Model):
          "phone":self.phone,
          "username":self.username,
          "student_reg":self.student_reg,
+         
          "dept":self.department,
          "current_module":self.current_module
          }

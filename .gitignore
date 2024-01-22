@@ -2,4 +2,4 @@ env/
 *.sqlite
 instance/
 .env
-.bat/
+.bat

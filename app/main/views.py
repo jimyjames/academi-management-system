@@ -1,6 +1,7 @@
 from . import ams
 from flask import request,jsonify,render_template, url_for, redirect,flash
 from sqlalchemy import or_
+from sqlalchemy.orm import joinedload
 from .. import db
 from ..models import Students,Units,Marks,Results,Enrollments
 from .forms import MarksForm,EnrollmentForm
@@ -17,6 +18,9 @@ def register():
     return render_template("landing.html")
 
 
+
+    # return render_template('landing.html')
+    # return "<a href='/students'>View Students</a>"+ "<br>" + "<a href='/enrollments'>View Enrolled Students</a>"+ "<br>"+ "<a href='/newenrollments'>Enroll Students</a>" +"<br>" + "<a href='/marks'>View Marks </a>"+"<br>" + "<a href='/newmarks'>Add Marks</a>" + "<br>" +"<a href='/students'>View Students</a>"
 
 
 @ams.route("/viewstudent",methods=["GET"])
@@ -295,37 +299,75 @@ def enrollment(id):
 #         return jsonify(mark_list)
 
 
-@ams.route("/marks",methods=["GET"])
-def get_marks():
-    search = request.args.get('course', default='')
-    marks=Marks.query.all()
-    marks_list=[]
-    for mark in marks:
-        enrollment=Enrollments.query.get(mark.enrollment_id)
-        student = Students.query.get(enrollment.student_id)
-        unit = Units.query.filter(Units.name.contains(search)).all()
+# @ams.route("/marks",methods=["GET"])
+# def get_marks():
+#     search = request.args.get('course', default='')
+#     marks=Marks.query.all()
+#     marks_list=[]
+#     for mark in marks:
+#         enrollment=Enrollments.query.get(mark.enrollment_id)
+#         student = Students.query.get(enrollment.student_id)
+#         unit = Units.query.filter(Units.name.contains(search)).all()
 
-        marks_list.append({
-            "student_name": student.fname + " " + student.mname + " " + student.sname,
-            # "course_name": unit.name,
-            # "course_code": unit.code,
-            "student_reg": student.student_reg,
-            "cat1":mark.cat1,
-            "Cat2":mark.Cat2,
-            "cat3":mark.cat3,
-            "assignment1":mark.assignment1,
-            "assignment2":mark.assignment2,
-            "assignment3":mark.assignment3,
-            "practicals":mark.practicals,
-            "mainExam":mark.mainExam,
-            "overallmark":mark.overallmarks,
-            "student_id":enrollment.student_id,
-            "course_id":enrollment.course_id,
-            "enrollment_id":enrollment.id
-        })
+#         marks_list.append({
+#             "student_name": student.fname + " " + student.mname + " " + student.sname,
+#             # "course_name": unit.name,
+#             # "course_code": unit.code,
+#             "student_reg": student.student_reg,
+#             "cat1":mark.cat1,
+#             "Cat2":mark.Cat2,
+#             "cat3":mark.cat3,
+#             "assignment1":mark.assignment1,
+#             "assignment2":mark.assignment2,
+#             "assignment3":mark.assignment3,
+#             "practicals":mark.practicals,
+#             "mainExam":mark.mainExam,
+#             "overallmark":mark.overallmarks,
+#             "student_id":enrollment.student_id,
+#             "course_id":enrollment.course_id,
+#             "enrollment_id":enrollment.id
+#         })
         
-    return render_template('viewmarks.html', scores=marks_list)
+#     return render_template('viewmarks.html', scores=marks_list)
 
+
+
+@ams.route("/marks", methods=["GET"])
+def get_marks():
+    search_course = request.args.get('course', default='')
+
+    try:
+        marks = Marks.query.all()
+        marks_list = []
+
+        for mark in marks:
+            enrollment = Enrollments.query.get(mark.enrollment_id)
+            student = Students.query.get(enrollment.student_id)
+            unit = Units.query.filter(Units.name.contains(search_course)).first()
+
+            marks_list.append({
+                "student_name": f"{student.fname} {student.mname} {student.sname}",
+                "student_reg": student.student_reg,
+                "cat1": mark.cat1,
+                "Cat2": mark.Cat2,
+                "cat3": mark.cat3,
+                "assignment1": mark.assignment1,
+                "assignment2": mark.assignment2,
+                "assignment3": mark.assignment3,
+                "practicals": mark.practicals,
+                "mainExam": mark.mainExam,
+                "overall_mark": mark.overallmarks,
+                "student_id": enrollment.student_id,
+                "course_id": enrollment.course_id,
+                "enrollment_id": enrollment.id,
+            })
+
+        return render_template('viewmarks.html', scores=marks_list)
+
+    except Exception as e:
+        # Implement error handling (log the error, return an error page, etc.)
+        print(f"Error fetching marks: {str(e)}")
+        return render_template('error.html', error_message="Error fetching marks.")
 
 @ams.route("/newmarks", methods=["GET", "POST"])
 def new_marks():
@@ -405,33 +447,63 @@ def calculate_overallmarks(cat1, Cat2, cat3, assignment1, assignment2, assignmen
 #         return redirect(url_for("ams.get_marks"))
 #     return  render_template("marks.html", marks_form=marks_form)
 
-@ams.route("/marks/<int:id>",methods=["GET","PUT","DELETE"])
-def mark(id):
+# @ams.route("/marks/<int:id>",methods=["GET","PUT","DELETE"])
+# def mark(id):
     
-    if request.method =="GET":
-        mark=Marks.query.get_or_404(id) 
+#     if request.method =="GET":
+#         mark=Marks.query.get_or_404(id) 
         
-        return jsonify(mark.to_json() )
-    if request.method=="PUT":
-        mark=Marks.query.get_or_404(id) 
-        mark.cat1=request.form["cat1"]
-        mark.Cat2=request.form["Cat2"]
-        mark.cat3=request.form["cat3"]
-        mark.assignment1=request.form["assignment1"]
-        mark.assignment2=request.form["assignment2"]
-        mark.assignment3=request.form["assignment3"]
-        mark.practicals=request.form["practicals"]
-        mark.mainExam=request.form["mainExam"]
-        mark.overallmarks=request.form["overallmarks"]
-        mark.course_id=request.form["course_id"]
-        mark.student_id=request.form["student_id"]
-        return jsonify(mark.to_json())
-    if request.method=="DELETE":
-          mark=Marks.query.get_or_404(id) 
-          db.session.delete(mark)
-          db.session.commit()
-          return {"data": f"mark {mark.id} Deleted successfully"}
+#         return jsonify(mark.to_json() )
+#     if request.method=="PUT":
+#         mark=Marks.query.get_or_404(id) 
+#         mark.cat1=request.form["cat1"]
+#         mark.Cat2=request.form["Cat2"]
+#         mark.cat3=request.form["cat3"]
+#         mark.assignment1=request.form["assignment1"]
+#         mark.assignment2=request.form["assignment2"]
+#         mark.assignment3=request.form["assignment3"]
+#         mark.practicals=request.form["practicals"]
+#         mark.mainExam=request.form["mainExam"]
+#         mark.overallmarks=request.form["overallmarks"]
+#         mark.course_id=request.form["course_id"]
+#         mark.student_id=request.form["student_id"]
+#         return jsonify(mark.to_json())
+#     if request.method=="DELETE":
+#           mark=Marks.query.get_or_404(id) 
+#           db.session.delete(mark)
+#           db.session.commit()
+#           return {"data": f"mark {mark.id} Deleted successfully"}
 
+
+
+# # @ams.route("/marks", methods=["GET"])
+# # def get_marks():
+#     # Assuming you have the unit_id available, you can retrieve it from the request parameters
+#     unit_id = request.args.get('unit_id', default='')
+
+#     # Query to retrieve marks for all students enrolled in the specified unit
+#     marks_query = Marks.query \
+#         .join(Enrollments, Marks.enrollment_id == Enrollments.id) \
+#         .join(Students, Enrollments.student_id == Students.id) \
+#         .filter(Enrollments.course_id == unit_id) \
+#         .options(joinedload(Enrollments.marks_enroll_id))  # Use the relationship attribute name
+
+#     marks = marks_query.all()
+
+#     marks_list = []
+#     for mark in marks:
+#         enrollment = mark.enrollment
+#         student = Students.query.get(enrollment.student_id)
+
+#         marks_list.append({
+#             "student_name": f"{student.fname} {student.mname} {student.sname}",
+#             "cat1": mark.cat1,
+#             "Cat2": mark.Cat2,
+#             "cat3": mark.cat3,
+#             # Include other relevant fields
+#         })
+
+#     return render_template('viewmarks.html', scores=marks_list)
 
 @ams.route("/results",methods=["GET","POST"])
 def results():
